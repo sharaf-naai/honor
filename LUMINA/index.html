@@ -61,6 +61,7 @@
         flex-direction: column;
         padding: 3rem 0;
         z-index: 100;
+        transition: width 0.3s var(--ease);
       }
 
       .sidebar-logo {
@@ -166,6 +167,7 @@
         margin-left: var(--sidebar-w);
         flex: 1;
         min-width: 0;
+        transition: margin-left 0.3s var(--ease);
       }
 
       /* ── PAGES ── */
@@ -175,6 +177,18 @@
       }
       .page.active {
         display: block;
+        animation: fadeIn 0.5s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       /* ── HOME PAGE ── */
@@ -218,7 +232,7 @@
 
       .hero-headline {
         font-family: var(--font-display);
-        font-size: clamp(4rem, 10vw, 9rem);
+        font-size: clamp(3.5rem, 8vw, 9rem);
         font-weight: 300;
         line-height: 0.9;
         letter-spacing: -0.02em;
@@ -330,7 +344,7 @@
 
       .manifesto-text {
         font-family: var(--font-display);
-        font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+        font-size: clamp(1.6rem, 3.5vw, 2.8rem);
         font-weight: 300;
         line-height: 1.3;
         color: var(--text);
@@ -1153,71 +1167,336 @@
         margin-bottom: 2rem;
       }
 
-      /* ── MOBILE ── */
-      @media (max-width: 900px) {
-        :root {
-          --sidebar-w: 60px;
+      /* ==============================================================
+         ── RESPONSIVE DESIGN (BREAKPOINTS) ── 
+         ============================================================== */
+
+      /* LAPTOPS & LARGE TABLETS (Max Width: 1200px) */
+      @media (max-width: 1200px) {
+        .services-row {
+          grid-template-columns: repeat(2, 1fr);
+          border-bottom: none;
         }
-        .sidebar-logo,
-        .sidebar-bottom,
+        .svc-cell {
+          border-bottom: 1px solid var(--border);
+        }
+        .svc-cell:nth-child(even) {
+          border-right: none;
+        }
+
+        .process-steps {
+          grid-template-columns: repeat(3, 1fr);
+          border-bottom: none;
+        }
+        .proc-step {
+          border-bottom: 1px solid var(--border);
+        }
+        .proc-step:nth-child(3) {
+          border-right: none;
+        }
+        .proc-step:nth-child(4),
+        .proc-step:nth-child(5) {
+          border-top: none;
+        }
+
+        .svc-detail-item {
+          padding: 4rem 3rem;
+          gap: 3rem;
+        }
+      }
+
+      /* TABLETS (Max Width: 992px) */
+      @media (max-width: 992px) {
+        :root {
+          --sidebar-w: 80px;
+        }
+        .sidebar-logo {
+          display: none;
+        }
+        .sidebar-bottom {
+          display: none;
+        }
+        .sidebar-nav {
+          padding: 5rem 0;
+        }
         .sidebar-nav li a span {
           display: none;
         }
         .sidebar-nav li a {
           justify-content: center;
-          padding: 1rem;
+          padding: 1.5rem 0;
         }
+
         .hero-content {
+          padding: 4rem 3rem;
+        }
+        .hero-stats {
+          top: 3rem;
+          right: 3rem;
+          gap: 1.5rem;
+        }
+
+        .manifesto {
+          grid-template-columns: 1fr;
+          gap: 3rem;
+          padding: 6rem 3rem;
+        }
+        .home-featured {
+          padding: 5rem 3rem;
+        }
+        .featured-grid {
+          grid-template-columns: 1fr;
+        }
+        .feat-card.tall img {
+          min-height: 400px;
+        }
+
+        .services-strip {
+          padding: 5rem 3rem;
+        }
+        .about-body {
+          grid-template-columns: 1fr;
+          padding: 6rem 3rem;
+        }
+        .about-sticky {
+          position: relative;
+          top: 0;
+          margin-bottom: 2rem;
+        }
+
+        .team-section {
+          padding: 6rem 3rem;
+        }
+        .team-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .process-section {
+          padding: 6rem 3rem;
+        }
+        .process-steps {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .proc-step:nth-child(2),
+        .proc-step:nth-child(4) {
+          border-right: none;
+        }
+        .proc-step:nth-child(3) {
+          border-right: 1px solid var(--border);
+        }
+
+        .projects-masonry {
           padding: 3rem;
+        }
+
+        .services-hero-text {
+          grid-template-columns: 1fr;
+          padding: 6rem 3rem 4rem;
+          gap: 2rem;
+        }
+        .svc-detail-item {
+          grid-template-columns: 60px 1fr;
+          gap: 2rem;
+          padding: 4rem 3rem;
+        }
+        .svc-img {
+          grid-column: 1 / -1;
+          margin-top: 2rem;
+        }
+
+        .contact-layout {
+          grid-template-columns: 1fr;
+        }
+        .contact-left,
+        .contact-right {
+          padding: 6rem 3rem;
+        }
+        .contact-left {
+          border-right: none;
+          border-bottom: 1px solid var(--border);
+        }
+      }
+
+      /* MOBILE PHONES (Max Width: 768px) */
+      @media (max-width: 768px) {
+        /* Transform Sidebar into Bottom Navigation */
+        .sidebar {
+          top: auto;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          height: 65px;
+          flex-direction: row;
+          border-right: none;
+          border-top: 1px solid var(--border);
+          padding: 0;
+          z-index: 1000;
+          background: var(--bg-card);
+        }
+        .main {
+          margin-left: 0;
+          margin-bottom: 65px;
+        }
+
+        .sidebar-nav {
+          padding: 0;
+          flex-direction: row;
+          justify-content: space-around;
+          width: 100%;
+        }
+        .sidebar-nav li {
+          flex: 1;
+        }
+        .sidebar-nav li a {
+          padding: 0;
+          height: 100%;
+        }
+
+        /* Transform active indicator line to top border */
+        .sidebar-nav li a::before {
+          width: 100%;
+          height: 2px;
+          top: 0;
+          left: 0;
+          bottom: auto;
+          transform: scaleX(0);
+          transition: transform 0.3s var(--ease);
+        }
+        .sidebar-nav li a:hover::before,
+        .sidebar-nav li a.active::before {
+          transform: scaleX(1);
+        }
+
+        /* Adjust Hero to fit Mobile */
+        .hero-content {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 3rem;
+          padding: 3rem 2rem;
         }
         .hero-stats {
           top: 2rem;
           right: 2rem;
+          left: 2rem;
+          flex-direction: row;
+          justify-content: space-between;
+          gap: 1rem;
         }
-        .manifesto,
-        .about-body,
-        .services-hero-text,
-        .contact-layout {
-          grid-template-columns: 1fr;
-          gap: 3rem;
+        .stat-item {
+          text-align: left;
         }
+        .hero-right {
+          align-items: flex-start;
+          text-align: left;
+        }
+        .hero-tagline {
+          text-align: left;
+        }
+
+        /* Unified Padding Adjustments */
         .manifesto,
         .home-featured,
         .services-strip,
+        .about-body,
         .team-section,
         .process-section,
         .contact-left,
         .contact-right,
         .services-hero-text,
-        .cta-block,
-        .footer {
-          padding-left: 2rem;
-          padding-right: 2rem;
+        .cta-block {
+          padding: 4rem 2rem;
         }
-        .projects-masonry {
-          padding: 2rem;
-          columns: 1;
+
+        .section-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1.5rem;
         }
-        .services-row,
-        .process-steps {
-          grid-template-columns: 1fr 1fr;
+
+        /* Stack Elements to 1 Column */
+        .services-row {
+          grid-template-columns: 1fr;
+          border-bottom: none;
+        }
+        .svc-cell {
+          border-right: none;
+          border-bottom: 1px solid var(--border);
+          padding: 3rem 2rem;
+        }
+        .svc-cell:last-child {
+          border-bottom: none;
+        }
+
+        .about-values {
+          grid-template-columns: 1fr;
         }
         .team-grid {
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: 1fr;
+          gap: 2rem;
         }
+
+        .process-steps {
+          grid-template-columns: 1fr;
+          border-bottom: none;
+        }
+        .proc-step {
+          border-right: none;
+          border-bottom: 1px solid var(--border);
+          padding: 3rem 2rem;
+        }
+        .proc-step:last-child {
+          border-bottom: none;
+        }
+        .proc-step:nth-child(n) {
+          border-top: none;
+        }
+
+        .projects-filters {
+          padding: 0 2rem;
+        }
+        .projects-masonry {
+          columns: 1;
+          padding: 2rem;
+          gap: 1.5rem;
+        }
+        .proj-item {
+          margin-bottom: 1.5rem;
+        }
+
         .svc-detail-item {
           grid-template-columns: 1fr;
+          padding: 3rem 2rem;
+          gap: 1rem;
+        }
+        .svc-detail-num {
+          margin-bottom: 1rem;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+          gap: 0;
+        }
+
+        .footer {
+          flex-direction: column;
+          text-align: center;
           gap: 1.5rem;
           padding: 3rem 2rem;
         }
-        .form-row {
-          grid-template-columns: 1fr;
+        .gold-bar {
+          display: none;
+        }
+        .footer div:nth-child(2) {
+          line-height: 2;
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
         }
       }
     </style>
   </head>
   <body>
-    <!-- ── SIDEBAR ── -->
     <nav class="sidebar">
       <div class="sidebar-logo">LUMIN<span>A</span></div>
       <ul class="sidebar-nav">
@@ -1312,16 +1591,10 @@
       </div>
     </nav>
 
-    <!-- ── MAIN ── -->
     <div class="main">
-      <!-- ════════ HOME ════════ -->
       <div class="page active" id="page-home">
         <header class="hero">
-          <img
-            class="hero-img"
-            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=80"
-            alt="Lumina hero"
-          />
+          <img class="hero-img" src="hero.jpg" alt="Lumina hero" />
           <div class="hero-stats">
             <div class="stat-item">
               <div class="stat-num">12+</div>
@@ -1384,30 +1657,21 @@
           </div>
           <div class="featured-grid">
             <div class="feat-card tall">
-              <img
-                src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80"
-                alt="Arqa"
-              />
+              <img src="img3.jpg" alt="Arqa" />
               <div class="feat-meta">
                 <div class="feat-title">Arqa Residence</div>
                 <div class="feat-sub">Architecture · 2025</div>
               </div>
             </div>
             <div class="feat-card short">
-              <img
-                src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=900&q=80"
-                alt="Vivere"
-              />
+              <img src="img2.jpg" alt="Vivere" />
               <div class="feat-meta">
                 <div class="feat-title">Vivere Penthouse</div>
                 <div class="feat-sub">Interior Design · 2024</div>
               </div>
             </div>
             <div class="feat-card short">
-              <img
-                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=900&q=80"
-                alt="Horizon"
-              />
+              <img src="img6.jpg" alt="Horizon" />
               <div class="feat-meta">
                 <div class="feat-title">Horizon Villa</div>
                 <div class="feat-sub">Architecture · 2023</div>
@@ -1495,13 +1759,9 @@
         </footer>
       </div>
 
-      <!-- ════════ ABOUT ════════ -->
       <div class="page" id="page-about">
         <div class="page-hero">
-          <img
-            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2000&q=80"
-            alt="Studio"
-          />
+          <img src="hall.jpg" alt="Studio" />
           <div class="page-hero-content">
             <div class="page-label">02 / About Us</div>
             <h1 class="page-title">The Studio<br />Behind the Space</h1>
@@ -1515,7 +1775,7 @@
               <div class="about-role">Founder & Principal Designer</div>
               <img
                 class="about-portrait"
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&q=80"
+                src="woman.jpg"
                 alt="Sophie Laurent"
               />
             </div>
@@ -1582,29 +1842,17 @@
           </div>
           <div class="team-grid">
             <div class="team-card">
-              <img
-                class="team-img"
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&q=80"
-                alt="Sophie Laurent"
-              />
+              <img class="team-img" src="woman.jpg" alt="Sophie Laurent" />
               <div class="team-name">Sophie Laurent</div>
               <div class="team-role">Founder · Principal Designer</div>
             </div>
             <div class="team-card">
-              <img
-                class="team-img"
-                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=500&q=80"
-                alt="Marco Bellini"
-              />
+              <img class="team-img" src="man.jpg" alt="Marco Bellini" />
               <div class="team-name">Marco Bellini</div>
               <div class="team-role">Lead Architect</div>
             </div>
             <div class="team-card">
-              <img
-                class="team-img"
-                src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=500&q=80"
-                alt="Yuki Tanaka"
-              />
+              <img class="team-img" src="woman1.jpg" alt="Yuki Tanaka" />
               <div class="team-name">Yuki Tanaka</div>
               <div class="team-role">Senior Interior Designer</div>
             </div>
@@ -1639,13 +1887,9 @@
         </footer>
       </div>
 
-      <!-- ════════ PROJECTS ════════ -->
       <div class="page" id="page-projects">
         <div class="page-hero">
-          <img
-            src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2000&q=80"
-            alt="Projects"
-          />
+          <img src="prjcs.jpg" alt="Projects" />
           <div class="page-hero-content">
             <div class="page-label">03 / Portfolio</div>
             <h1 class="page-title">Selected<br />Works</h1>
@@ -1670,10 +1914,7 @@
 
         <div class="projects-masonry">
           <div class="proj-item">
-            <img
-              src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80"
-              alt="Arqa"
-            />
+            <img src="img1.jpg" alt="Arqa" />
             <div class="proj-overlay">
               <div class="proj-info">
                 <div class="proj-name">Arqa Residence</div>
@@ -1682,10 +1923,7 @@
             </div>
           </div>
           <div class="proj-item">
-            <img
-              src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80"
-              alt="Vivere"
-            />
+            <img src="img2.jpg" alt="Vivere" />
             <div class="proj-overlay">
               <div class="proj-info">
                 <div class="proj-name">Vivere Penthouse</div>
@@ -1694,10 +1932,7 @@
             </div>
           </div>
           <div class="proj-item">
-            <img
-              src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80"
-              alt="Hotel Riva"
-            />
+            <img src="img3.jpg" alt="Hotel Riva" />
             <div class="proj-overlay">
               <div class="proj-info">
                 <div class="proj-name">Hotel Riva</div>
@@ -1706,10 +1941,7 @@
             </div>
           </div>
           <div class="proj-item">
-            <img
-              src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80"
-              alt="Horizon"
-            />
+            <img src="img4.jpg" alt="Horizon" />
             <div class="proj-overlay">
               <div class="proj-info">
                 <div class="proj-name">Horizon Villa</div>
@@ -1718,10 +1950,7 @@
             </div>
           </div>
           <div class="proj-item">
-            <img
-              src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80"
-              alt="Scala"
-            />
+            <img src="img5.jpg" alt="Scala" />
             <div class="proj-overlay">
               <div class="proj-info">
                 <div class="proj-name">Scala Offices</div>
@@ -1730,10 +1959,7 @@
             </div>
           </div>
           <div class="proj-item">
-            <img
-              src="https://images.unsplash.com/photo-1556912173-3bb406ef726b?auto=format&fit=crop&w=800&q=80"
-              alt="Noma"
-            />
+            <img src="img6.jpg" alt="Noma" />
             <div class="proj-overlay">
               <div class="proj-info">
                 <div class="proj-name">Noma Kitchen</div>
@@ -1742,10 +1968,7 @@
             </div>
           </div>
           <div class="proj-item">
-            <img
-              src="https://images.unsplash.com/photo-1502005097973-6a7082348e28?auto=format&fit=crop&w=800&q=80"
-              alt="Ember"
-            />
+            <img src="img7.jpg" alt="Ember" />
             <div class="proj-overlay">
               <div class="proj-info">
                 <div class="proj-name">Ember Loft</div>
@@ -1754,10 +1977,7 @@
             </div>
           </div>
           <div class="proj-item">
-            <img
-              src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
-              alt="Meridian"
-            />
+            <img src="img8.jpg" alt="Meridian" />
             <div class="proj-overlay">
               <div class="proj-info">
                 <div class="proj-name">Meridian Tower</div>
@@ -1777,13 +1997,9 @@
         </footer>
       </div>
 
-      <!-- ════════ SERVICES ════════ -->
       <div class="page" id="page-services">
         <div class="page-hero">
-          <img
-            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2000&q=80"
-            alt="Services"
-          />
+          <img src="services.jpg" alt="Services" />
           <div class="page-hero-content">
             <div class="page-label">04 / Expertise</div>
             <h1 class="page-title">What We Do<br />& How We Do It</h1>
@@ -1817,11 +2033,7 @@
                 <li>Scope of work document</li>
               </ul>
             </div>
-            <img
-              class="svc-img"
-              src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80"
-              alt="Consultation"
-            />
+            <img class="svc-img" src="hall.jpg" alt="Consultation" />
           </div>
 
           <div class="svc-detail-item">
@@ -1841,11 +2053,7 @@
                 <li>Construction administration</li>
               </ul>
             </div>
-            <img
-              class="svc-img"
-              src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=600&q=80"
-              alt="Architecture"
-            />
+            <img class="svc-img" src="arch.jpg" alt="Architecture" />
           </div>
 
           <div class="svc-detail-item">
@@ -1865,11 +2073,7 @@
                 <li>Procurement and installation management</li>
               </ul>
             </div>
-            <img
-              class="svc-img"
-              src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=600&q=80"
-              alt="Interior Design"
-            />
+            <img class="svc-img" src="img7.jpg" alt="Interior Design" />
           </div>
 
           <div class="svc-detail-item">
@@ -1889,11 +2093,7 @@
                 <li>Photography and documentation</li>
               </ul>
             </div>
-            <img
-              class="svc-img"
-              src="https://images.unsplash.com/photo-1556912173-3bb406ef726b?auto=format&fit=crop&w=600&q=80"
-              alt="Art Direction"
-            />
+            <img class="svc-img" src="img1.jpg" alt="Art Direction" />
           </div>
         </div>
 
@@ -1973,7 +2173,6 @@
         </footer>
       </div>
 
-      <!-- ════════ CONTACT ════════ -->
       <div class="page" id="page-contact">
         <div class="contact-layout">
           <div class="contact-left">
@@ -2079,8 +2278,6 @@
         </footer>
       </div>
     </div>
-    <!-- /main -->
-
     <script>
       function showPage(id, linkEl) {
         document
