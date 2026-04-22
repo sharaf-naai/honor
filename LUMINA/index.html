@@ -1,0 +1,2114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lumina | Interior Design Studio</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      :root {
+        --bg: #060605;
+        --bg-card: #111110;
+        --bg-sidebar: #0a0a09;
+        --text: #f0ece4;
+        --text-muted: #6b6860;
+        --text-dim: #3a3935;
+        --gold: #c9a84c;
+        --gold-light: #e8c96a;
+        --gold-dim: #6b5520;
+        --border: #1e1d1a;
+        --border-mid: #2a2925;
+        --sidebar-w: 220px;
+        --font-display: "Cormorant Garamond", serif;
+        --font-body: "DM Sans", sans-serif;
+        --ease: cubic-bezier(0.25, 1, 0.5, 1);
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+        -webkit-font-smoothing: antialiased;
+        display: flex;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* ── SIDEBAR ── */
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: var(--sidebar-w);
+        background: var(--bg-sidebar);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        padding: 3rem 0;
+        z-index: 100;
+      }
+
+      .sidebar-logo {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 400;
+        letter-spacing: 0.15em;
+        color: var(--text);
+        padding: 0 2rem 3rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .sidebar-logo span {
+        color: var(--gold);
+      }
+
+      .sidebar-nav {
+        flex: 1;
+        padding: 2.5rem 0;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .sidebar-nav li a {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.85rem 2rem;
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        text-decoration: none;
+        cursor: pointer;
+        transition:
+          color 0.3s,
+          background 0.3s;
+        position: relative;
+      }
+
+      .sidebar-nav li a::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: var(--gold);
+        transform: scaleY(0);
+        transition: transform 0.3s var(--ease);
+      }
+
+      .sidebar-nav li a:hover,
+      .sidebar-nav li a.active {
+        color: var(--text);
+        background: rgba(201, 168, 76, 0.04);
+      }
+
+      .sidebar-nav li a:hover::before,
+      .sidebar-nav li a.active::before {
+        transform: scaleY(1);
+      }
+
+      .sidebar-nav li a.active {
+        color: var(--gold);
+      }
+
+      .nav-icon {
+        width: 16px;
+        height: 16px;
+        opacity: 0.5;
+        transition: opacity 0.3s;
+        flex-shrink: 0;
+      }
+      .sidebar-nav li a:hover .nav-icon,
+      .sidebar-nav li a.active .nav-icon {
+        opacity: 1;
+      }
+
+      .sidebar-bottom {
+        padding: 2rem;
+        border-top: 1px solid var(--border);
+        font-size: 0.65rem;
+        color: var(--text-dim);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        line-height: 2;
+      }
+
+      .sidebar-bottom a {
+        color: var(--text-muted);
+        text-decoration: none;
+        display: block;
+        transition: color 0.3s;
+      }
+      .sidebar-bottom a:hover {
+        color: var(--gold);
+      }
+
+      /* ── MAIN CONTENT ── */
+      .main {
+        margin-left: var(--sidebar-w);
+        flex: 1;
+        min-width: 0;
+      }
+
+      /* ── PAGES ── */
+      .page {
+        display: none;
+        min-height: 100vh;
+      }
+      .page.active {
+        display: block;
+      }
+
+      /* ── HOME PAGE ── */
+      .hero {
+        height: 100vh;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: flex-end;
+      }
+
+      .hero-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.5);
+        transform: scale(1.04);
+        animation: zoomBg 22s ease-in-out infinite alternate;
+      }
+
+      @keyframes zoomBg {
+        from {
+          transform: scale(1);
+        }
+        to {
+          transform: scale(1.06);
+        }
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        padding: 5rem;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+
+      .hero-headline {
+        font-family: var(--font-display);
+        font-size: clamp(4rem, 10vw, 9rem);
+        font-weight: 300;
+        line-height: 0.9;
+        letter-spacing: -0.02em;
+        color: var(--text);
+      }
+
+      .hero-headline em {
+        font-style: italic;
+        color: var(--gold-light);
+      }
+
+      .hero-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 2rem;
+        max-width: 280px;
+      }
+
+      .hero-tagline {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-align: right;
+        line-height: 1.8;
+      }
+
+      .hero-scroll {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+
+      .scroll-line {
+        width: 60px;
+        height: 1px;
+        background: var(--gold);
+        position: relative;
+        overflow: hidden;
+      }
+      .scroll-line::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: var(--text);
+        animation: scanLine 2s ease-in-out infinite;
+      }
+      @keyframes scanLine {
+        to {
+          left: 100%;
+        }
+      }
+
+      .hero-stats {
+        position: absolute;
+        top: 5rem;
+        right: 5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+        z-index: 2;
+      }
+
+      .stat-item {
+        text-align: right;
+      }
+
+      .stat-num {
+        font-family: var(--font-display);
+        font-size: 2.5rem;
+        font-weight: 300;
+        color: var(--text);
+        line-height: 1;
+      }
+
+      .stat-label {
+        font-size: 0.65rem;
+        color: var(--text-muted);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-top: 0.25rem;
+      }
+
+      /* ── HOME MANIFESTO ── */
+      .manifesto {
+        padding: 8rem 5rem;
+        border-bottom: 1px solid var(--border);
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 6rem;
+        align-items: start;
+      }
+
+      .section-index {
+        font-size: 0.65rem;
+        color: var(--gold);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        padding-top: 0.4rem;
+      }
+
+      .manifesto-text {
+        font-family: var(--font-display);
+        font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+        font-weight: 300;
+        line-height: 1.3;
+        color: var(--text);
+      }
+
+      .manifesto-text .dim {
+        color: var(--text-muted);
+      }
+
+      /* ── HOME FEATURED ── */
+      .home-featured {
+        padding: 6rem 5rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 4rem;
+      }
+
+      .section-title {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        font-weight: 300;
+        letter-spacing: -0.01em;
+      }
+
+      .featured-grid {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 1.5rem;
+      }
+
+      .featured-main {
+        grid-row: span 2;
+      }
+
+      .feat-card {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        background: var(--bg-card);
+      }
+
+      .feat-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition:
+          transform 0.8s var(--ease),
+          opacity 0.5s;
+        opacity: 0.85;
+      }
+
+      .feat-card:hover img {
+        transform: scale(1.06);
+        opacity: 1;
+      }
+
+      .feat-card.tall img {
+        min-height: 600px;
+      }
+      .feat-card.short img {
+        min-height: 290px;
+      }
+
+      .feat-meta {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 2.5rem;
+        background: linear-gradient(transparent, rgba(6, 6, 5, 0.9));
+      }
+
+      .feat-title {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 300;
+        color: var(--text);
+        margin-bottom: 0.4rem;
+      }
+
+      .feat-sub {
+        font-size: 0.7rem;
+        color: var(--gold);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      /* ── HOME SERVICES STRIP ── */
+      .services-strip {
+        padding: 5rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .services-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0;
+        border: 1px solid var(--border);
+      }
+
+      .svc-cell {
+        padding: 3rem 2.5rem;
+        border-right: 1px solid var(--border);
+        cursor: pointer;
+        transition: background 0.4s;
+      }
+
+      .svc-cell:last-child {
+        border-right: none;
+      }
+      .svc-cell:hover {
+        background: rgba(201, 168, 76, 0.03);
+      }
+
+      .svc-num {
+        font-size: 0.65rem;
+        color: var(--gold);
+        letter-spacing: 0.15em;
+        margin-bottom: 1.5rem;
+      }
+
+      .svc-name {
+        font-family: var(--font-display);
+        font-size: 1.4rem;
+        font-weight: 300;
+        margin-bottom: 1rem;
+        color: var(--text);
+      }
+
+      .svc-desc {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        line-height: 1.8;
+      }
+
+      /* ── BTN ── */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.7rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.3s;
+        font-family: var(--font-body);
+      }
+
+      .btn-gold {
+        background: var(--gold);
+        color: #090807;
+        padding: 0.9rem 2.2rem;
+        font-weight: 500;
+      }
+      .btn-gold:hover {
+        background: var(--gold-light);
+      }
+
+      .btn-ghost {
+        color: var(--text-muted);
+        border: 1px solid var(--border-mid);
+        padding: 0.9rem 2.2rem;
+      }
+      .btn-ghost:hover {
+        color: var(--text);
+        border-color: var(--text-muted);
+      }
+
+      .btn-text {
+        color: var(--gold);
+      }
+      .btn-text:hover {
+        color: var(--gold-light);
+      }
+
+      .btn-arrow {
+        font-size: 1rem;
+        transition: transform 0.3s;
+      }
+      .btn:hover .btn-arrow {
+        transform: translateX(4px);
+      }
+
+      /* ── ABOUT PAGE ── */
+      .page-hero {
+        height: 60vh;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: flex-end;
+      }
+
+      .page-hero img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.4);
+      }
+
+      .page-hero-content {
+        position: relative;
+        z-index: 2;
+        padding: 4rem 5rem;
+      }
+
+      .page-label {
+        font-size: 0.65rem;
+        color: var(--gold);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+      }
+
+      .page-title {
+        font-family: var(--font-display);
+        font-size: clamp(3rem, 7vw, 6rem);
+        font-weight: 300;
+        line-height: 0.95;
+        letter-spacing: -0.02em;
+      }
+
+      .about-body {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 6rem;
+        padding: 7rem 5rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .about-left {
+      }
+      .about-sticky {
+        position: sticky;
+        top: 3rem;
+      }
+
+      .about-name {
+        font-family: var(--font-display);
+        font-size: 1.1rem;
+        font-weight: 400;
+        color: var(--text);
+        margin-bottom: 0.25rem;
+      }
+
+      .about-role {
+        font-size: 0.7rem;
+        color: var(--gold);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 2rem;
+      }
+
+      .about-portrait {
+        width: 100%;
+        aspect-ratio: 3/4;
+        object-fit: cover;
+        opacity: 0.85;
+        filter: grayscale(20%);
+      }
+
+      .about-text p {
+        font-size: 1rem;
+        color: var(--text-muted);
+        line-height: 2;
+        margin-bottom: 2rem;
+      }
+
+      .about-text p:first-child {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 300;
+        color: var(--text);
+        line-height: 1.5;
+        margin-bottom: 3rem;
+      }
+
+      .about-values {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-top: 4rem;
+        padding-top: 4rem;
+        border-top: 1px solid var(--border);
+      }
+
+      .value-item {
+      }
+
+      .value-title {
+        font-size: 0.7rem;
+        color: var(--gold);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 0.75rem;
+      }
+
+      .value-desc {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        line-height: 1.9;
+      }
+
+      .team-section {
+        padding: 7rem 5rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .team-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3rem;
+        margin-top: 4rem;
+      }
+
+      .team-card {
+      }
+
+      .team-img {
+        width: 100%;
+        aspect-ratio: 3/4;
+        object-fit: cover;
+        opacity: 0.8;
+        filter: grayscale(30%);
+        transition:
+          opacity 0.4s,
+          filter 0.4s;
+        margin-bottom: 1.5rem;
+      }
+
+      .team-card:hover .team-img {
+        opacity: 0.95;
+        filter: grayscale(0);
+      }
+
+      .team-name {
+        font-family: var(--font-display);
+        font-size: 1.2rem;
+        font-weight: 400;
+        color: var(--text);
+        margin-bottom: 0.25rem;
+      }
+
+      .team-role {
+        font-size: 0.7rem;
+        color: var(--gold);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      /* ── PROJECTS PAGE ── */
+      .projects-filters {
+        display: flex;
+        gap: 0;
+        padding: 0 5rem;
+        border-bottom: 1px solid var(--border);
+        overflow-x: auto;
+      }
+
+      .filter-btn {
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 1.5rem 1.8rem;
+        color: var(--text-muted);
+        cursor: pointer;
+        border: none;
+        background: none;
+        font-family: var(--font-body);
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.3s,
+          border-color 0.3s;
+        white-space: nowrap;
+      }
+
+      .filter-btn:hover {
+        color: var(--text);
+      }
+      .filter-btn.active {
+        color: var(--gold);
+        border-bottom-color: var(--gold);
+      }
+
+      .projects-masonry {
+        padding: 5rem;
+        columns: 2;
+        column-gap: 1.5rem;
+      }
+
+      .proj-item {
+        break-inside: avoid;
+        margin-bottom: 1.5rem;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        display: block;
+      }
+
+      .proj-item img {
+        width: 100%;
+        display: block;
+        transition:
+          transform 0.7s var(--ease),
+          opacity 0.4s;
+        opacity: 0.8;
+      }
+
+      .proj-item:hover img {
+        transform: scale(1.05);
+        opacity: 1;
+      }
+
+      .proj-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(transparent 40%, rgba(6, 6, 5, 0.85));
+        opacity: 0;
+        transition: opacity 0.4s;
+        display: flex;
+        align-items: flex-end;
+        padding: 2rem;
+      }
+
+      .proj-item:hover .proj-overlay {
+        opacity: 1;
+      }
+
+      .proj-info {
+      }
+      .proj-name {
+        font-family: var(--font-display);
+        font-size: 1.3rem;
+        font-weight: 300;
+        color: var(--text);
+      }
+
+      .proj-type {
+        font-size: 0.65rem;
+        color: var(--gold);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-top: 0.25rem;
+      }
+
+      /* ── SERVICES PAGE ── */
+      .services-hero-text {
+        padding: 7rem 5rem 5rem;
+        border-bottom: 1px solid var(--border);
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 8rem;
+        align-items: end;
+      }
+
+      .services-intro {
+        font-family: var(--font-display);
+        font-size: clamp(1.6rem, 3vw, 2.4rem);
+        font-weight: 300;
+        line-height: 1.35;
+        color: var(--text-muted);
+      }
+
+      .services-intro strong {
+        color: var(--text);
+        font-weight: 300;
+      }
+
+      .services-detail {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .svc-detail-item {
+        padding: 4rem 5rem;
+        border-bottom: 1px solid var(--border);
+        display: grid;
+        grid-template-columns: 80px 1fr 1fr;
+        gap: 5rem;
+        align-items: start;
+        cursor: pointer;
+        transition: background 0.4s;
+      }
+
+      .svc-detail-item:hover {
+        background: rgba(201, 168, 76, 0.02);
+      }
+
+      .svc-detail-num {
+        font-family: var(--font-display);
+        font-size: 3rem;
+        font-weight: 300;
+        color: var(--text-dim);
+        line-height: 1;
+      }
+
+      .svc-detail-name {
+        font-family: var(--font-display);
+        font-size: 2.2rem;
+        font-weight: 300;
+        color: var(--text);
+        margin-bottom: 1rem;
+      }
+
+      .svc-detail-desc {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        line-height: 1.9;
+        margin-bottom: 2rem;
+      }
+
+      .svc-deliverables {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-top: 1rem;
+      }
+
+      .svc-deliverables li {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        letter-spacing: 0.06em;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .svc-deliverables li::before {
+        content: "";
+        width: 16px;
+        height: 1px;
+        background: var(--gold);
+        flex-shrink: 0;
+      }
+
+      .svc-img {
+        width: 100%;
+        aspect-ratio: 4/3;
+        object-fit: cover;
+        opacity: 0.7;
+        transition: opacity 0.4s;
+      }
+
+      .svc-detail-item:hover .svc-img {
+        opacity: 0.9;
+      }
+
+      .process-section {
+        padding: 7rem 5rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .process-steps {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0;
+        margin-top: 5rem;
+        border: 1px solid var(--border);
+      }
+
+      .proc-step {
+        padding: 3rem 2rem;
+        border-right: 1px solid var(--border);
+        position: relative;
+      }
+
+      .proc-step:last-child {
+        border-right: none;
+      }
+
+      .proc-num {
+        font-family: var(--font-display);
+        font-size: 0.75rem;
+        color: var(--gold);
+        letter-spacing: 0.15em;
+        margin-bottom: 1.5rem;
+      }
+
+      .proc-name {
+        font-family: var(--font-display);
+        font-size: 1.1rem;
+        font-weight: 400;
+        color: var(--text);
+        margin-bottom: 0.75rem;
+      }
+
+      .proc-desc {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        line-height: 1.8;
+      }
+
+      /* ── CONTACT PAGE ── */
+      .contact-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: calc(100vh - 60px);
+      }
+
+      .contact-left {
+        padding: 7rem 5rem;
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .contact-headline {
+        font-family: var(--font-display);
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        font-weight: 300;
+        line-height: 1.1;
+        margin-bottom: 3rem;
+      }
+
+      .contact-headline em {
+        font-style: italic;
+        color: var(--gold);
+      }
+
+      .contact-info-block {
+        margin-bottom: 4rem;
+      }
+
+      .ci-label {
+        font-size: 0.65rem;
+        color: var(--gold);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+      }
+
+      .ci-value {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        line-height: 2;
+      }
+
+      .ci-value a {
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      .ci-value a:hover {
+        color: var(--gold);
+      }
+
+      .contact-social {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .contact-social a {
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.3s;
+        border-bottom: 1px solid transparent;
+        padding-bottom: 2px;
+      }
+      .contact-social a:hover {
+        color: var(--gold);
+        border-bottom-color: var(--gold-dim);
+      }
+
+      .contact-right {
+        padding: 7rem 5rem;
+      }
+
+      .form-title {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 300;
+        color: var(--text);
+        margin-bottom: 3rem;
+      }
+
+      .form-group {
+        margin-bottom: 2rem;
+      }
+
+      .form-label {
+        display: block;
+        font-size: 0.65rem;
+        color: var(--text-muted);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 0.75rem;
+      }
+
+      .form-input,
+      .form-select,
+      .form-textarea {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid var(--border-mid);
+        padding: 0.75rem 0;
+        color: var(--text);
+        font-family: var(--font-body);
+        font-size: 0.9rem;
+        outline: none;
+        transition: border-color 0.3s;
+        -webkit-appearance: none;
+      }
+
+      .form-select {
+        cursor: pointer;
+        color: var(--text-muted);
+      }
+
+      .form-select option {
+        background: #111;
+        color: var(--text);
+      }
+
+      .form-input:focus,
+      .form-select:focus,
+      .form-textarea:focus {
+        border-bottom-color: var(--gold);
+      }
+
+      .form-input::placeholder,
+      .form-textarea::placeholder {
+        color: var(--text-dim);
+      }
+
+      .form-textarea {
+        resize: none;
+        min-height: 120px;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+
+      .form-submit {
+        margin-top: 3rem;
+        width: 100%;
+      }
+
+      /* ── CTA BLOCK ── */
+      .cta-block {
+        padding: 8rem 5rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2.5rem;
+        border-top: 1px solid var(--border);
+      }
+
+      .cta-label {
+        font-size: 0.65rem;
+        color: var(--gold);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      .cta-title {
+        font-family: var(--font-display);
+        font-size: clamp(2.5rem, 5vw, 5rem);
+        font-weight: 300;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+      }
+
+      .cta-title em {
+        font-style: italic;
+        color: var(--gold);
+      }
+
+      /* ── FOOTER ── */
+      .footer {
+        padding: 3rem 5rem;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.65rem;
+        color: var(--text-dim);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .footer-logo {
+        font-family: var(--font-display);
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        letter-spacing: 0.15em;
+      }
+
+      .gold-bar {
+        display: inline-block;
+        width: 20px;
+        height: 1px;
+        background: var(--gold);
+        vertical-align: middle;
+        margin: 0 0.5rem;
+      }
+
+      /* ── GOLD LINE DIVIDER ── */
+      .gold-divider {
+        width: 40px;
+        height: 1px;
+        background: var(--gold);
+        margin-bottom: 2rem;
+      }
+
+      /* ── MOBILE ── */
+      @media (max-width: 900px) {
+        :root {
+          --sidebar-w: 60px;
+        }
+        .sidebar-logo,
+        .sidebar-bottom,
+        .sidebar-nav li a span {
+          display: none;
+        }
+        .sidebar-nav li a {
+          justify-content: center;
+          padding: 1rem;
+        }
+        .hero-content {
+          padding: 3rem;
+        }
+        .hero-stats {
+          top: 2rem;
+          right: 2rem;
+        }
+        .manifesto,
+        .about-body,
+        .services-hero-text,
+        .contact-layout {
+          grid-template-columns: 1fr;
+          gap: 3rem;
+        }
+        .manifesto,
+        .home-featured,
+        .services-strip,
+        .team-section,
+        .process-section,
+        .contact-left,
+        .contact-right,
+        .services-hero-text,
+        .cta-block,
+        .footer {
+          padding-left: 2rem;
+          padding-right: 2rem;
+        }
+        .projects-masonry {
+          padding: 2rem;
+          columns: 1;
+        }
+        .services-row,
+        .process-steps {
+          grid-template-columns: 1fr 1fr;
+        }
+        .team-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .svc-detail-item {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+          padding: 3rem 2rem;
+        }
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ── SIDEBAR ── -->
+    <nav class="sidebar">
+      <div class="sidebar-logo">LUMIN<span>A</span></div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="#" class="active" onclick="showPage('home', this)">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
+            <span>Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showPage('about', this)">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+            </svg>
+            <span>About</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showPage('projects', this)">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <rect x="3" y="3" width="8" height="8" rx="1" />
+              <rect x="13" y="3" width="8" height="8" rx="1" />
+              <rect x="3" y="13" width="8" height="8" rx="1" />
+              <rect x="13" y="13" width="8" height="8" rx="1" />
+            </svg>
+            <span>Projects</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showPage('services', this)">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+              />
+            </svg>
+            <span>Services</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showPage('contact', this)">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            <span>Contact</span>
+          </a>
+        </li>
+      </ul>
+      <div class="sidebar-bottom">
+        <a href="#">Instagram</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Behance</a>
+        <div style="margin-top: 1.5rem; color: var(--text-dim)">
+          © 2026 Lumina
+        </div>
+      </div>
+    </nav>
+
+    <!-- ── MAIN ── -->
+    <div class="main">
+      <!-- ════════ HOME ════════ -->
+      <div class="page active" id="page-home">
+        <header class="hero">
+          <img
+            class="hero-img"
+            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=80"
+            alt="Lumina hero"
+          />
+          <div class="hero-stats">
+            <div class="stat-item">
+              <div class="stat-num">12+</div>
+              <div class="stat-label">Years</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">84</div>
+              <div class="stat-label">Projects</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">6</div>
+              <div class="stat-label">Awards</div>
+            </div>
+          </div>
+          <div class="hero-content">
+            <h1 class="hero-headline">
+              Space<br />is a<br /><em>language.</em>
+            </h1>
+            <div class="hero-right">
+              <p class="hero-tagline">
+                Architecture · Interior Design<br />Art Direction · New York
+              </p>
+              <div class="hero-scroll">
+                <div class="scroll-line"></div>
+                Scroll
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <section class="manifesto">
+          <div class="section-index">01 / Philosophy</div>
+          <div>
+            <div class="gold-divider"></div>
+            <p class="manifesto-text">
+              We are a design studio driven by the belief that
+              <span class="dim"
+                >great spaces don't just look beautiful — they alter how you
+                feel, move, and belong.</span
+              >
+              Every detail is intentional. Nothing is decoration.
+            </p>
+          </div>
+        </section>
+
+        <section class="home-featured">
+          <div class="section-header">
+            <h2 class="section-title">Selected Works</h2>
+            <a
+              href="#"
+              class="btn btn-text"
+              onclick="
+                showPage(
+                  'projects',
+                  document.querySelector('.sidebar-nav li:nth-child(3) a'),
+                )
+              "
+              >View all projects <span class="btn-arrow">→</span></a
+            >
+          </div>
+          <div class="featured-grid">
+            <div class="feat-card tall">
+              <img
+                src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80"
+                alt="Arqa"
+              />
+              <div class="feat-meta">
+                <div class="feat-title">Arqa Residence</div>
+                <div class="feat-sub">Architecture · 2025</div>
+              </div>
+            </div>
+            <div class="feat-card short">
+              <img
+                src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=900&q=80"
+                alt="Vivere"
+              />
+              <div class="feat-meta">
+                <div class="feat-title">Vivere Penthouse</div>
+                <div class="feat-sub">Interior Design · 2024</div>
+              </div>
+            </div>
+            <div class="feat-card short">
+              <img
+                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=900&q=80"
+                alt="Horizon"
+              />
+              <div class="feat-meta">
+                <div class="feat-title">Horizon Villa</div>
+                <div class="feat-sub">Architecture · 2023</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="services-strip">
+          <div class="section-header" style="margin-bottom: 3rem">
+            <h2 class="section-title">Our Expertise</h2>
+            <a
+              href="#"
+              class="btn btn-text"
+              onclick="
+                showPage(
+                  'services',
+                  document.querySelector('.sidebar-nav li:nth-child(4) a'),
+                )
+              "
+              >All services <span class="btn-arrow">→</span></a
+            >
+          </div>
+          <div class="services-row">
+            <div class="svc-cell">
+              <div class="svc-num">01</div>
+              <div class="svc-name">Consultation</div>
+              <div class="svc-desc">
+                A strategic conversation to define your vision, budget, and
+                scope before the first line is drawn.
+              </div>
+            </div>
+            <div class="svc-cell">
+              <div class="svc-num">02</div>
+              <div class="svc-name">Architecture</div>
+              <div class="svc-desc">
+                From concept to construction documents — buildings conceived
+                with rigor and refinement.
+              </div>
+            </div>
+            <div class="svc-cell">
+              <div class="svc-num">03</div>
+              <div class="svc-name">Interior Design</div>
+              <div class="svc-desc">
+                Curated interiors where material, light, and form converge into
+                lived experience.
+              </div>
+            </div>
+            <div class="svc-cell">
+              <div class="svc-num">04</div>
+              <div class="svc-name">Art Direction</div>
+              <div class="svc-desc">
+                Visual identity for space — selecting art, objects, and
+                atmospheres that tell your story.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="cta-block">
+          <div class="cta-label">Start a Project</div>
+          <h2 class="cta-title">
+            Ready to transform<br /><em>your space?</em>
+          </h2>
+          <a
+            href="#"
+            class="btn btn-gold"
+            onclick="
+              showPage(
+                'contact',
+                document.querySelector('.sidebar-nav li:nth-child(5) a'),
+              )
+            "
+            >Begin Consultation <span class="btn-arrow">→</span></a
+          >
+        </section>
+
+        <footer class="footer">
+          <div class="footer-logo">LUMINA</div>
+          <div>
+            Architecture <span class="gold-bar"></span> Interior Design
+            <span class="gold-bar"></span> New York
+          </div>
+          <div>© 2026 All Rights Reserved</div>
+        </footer>
+      </div>
+
+      <!-- ════════ ABOUT ════════ -->
+      <div class="page" id="page-about">
+        <div class="page-hero">
+          <img
+            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2000&q=80"
+            alt="Studio"
+          />
+          <div class="page-hero-content">
+            <div class="page-label">02 / About Us</div>
+            <h1 class="page-title">The Studio<br />Behind the Space</h1>
+          </div>
+        </div>
+
+        <section class="about-body">
+          <div class="about-left">
+            <div class="about-sticky">
+              <div class="about-name">Sophie Laurent</div>
+              <div class="about-role">Founder & Principal Designer</div>
+              <img
+                class="about-portrait"
+                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&q=80"
+                alt="Sophie Laurent"
+              />
+            </div>
+          </div>
+          <div class="about-text">
+            <p>
+              We believe that architecture is the most intimate form of
+              storytelling — it shapes how people wake up, how they gather, how
+              they rest. Lumina was founded on the conviction that every space
+              deserves to be extraordinary.
+            </p>
+            <p>
+              Established in 2012, Lumina has grown from a two-person studio
+              into an internationally recognized practice working across
+              residential, hospitality, and cultural sectors. What hasn't
+              changed is our approach: slow, deliberate, deeply personal.
+            </p>
+            <p>
+              We don't follow trends. We study light. We study how people move.
+              We study the materials that will age with the building and become
+              more beautiful over time. The result is spaces that feel
+              inevitable — as if they could not have been any other way.
+            </p>
+            <p>
+              Each project begins with listening and ends with something that
+              lasts well beyond the final walk-through.
+            </p>
+            <div class="about-values">
+              <div class="value-item">
+                <div class="value-title">Craft</div>
+                <div class="value-desc">
+                  We work with artisans and makers who share our commitment to
+                  quality over speed. Every finish has a reason.
+                </div>
+              </div>
+              <div class="value-item">
+                <div class="value-title">Restraint</div>
+                <div class="value-desc">
+                  We believe subtraction is harder than addition. We remove
+                  until what remains is essential.
+                </div>
+              </div>
+              <div class="value-item">
+                <div class="value-title">Longevity</div>
+                <div class="value-desc">
+                  Materials chosen to age gracefully. Spaces designed to grow
+                  with the people who inhabit them.
+                </div>
+              </div>
+              <div class="value-item">
+                <div class="value-title">Dialogue</div>
+                <div class="value-desc">
+                  Great design is a conversation. We listen first, draw second,
+                  and always leave room to revise.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="team-section">
+          <div class="section-header">
+            <h2 class="section-title">The Team</h2>
+          </div>
+          <div class="team-grid">
+            <div class="team-card">
+              <img
+                class="team-img"
+                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&q=80"
+                alt="Sophie Laurent"
+              />
+              <div class="team-name">Sophie Laurent</div>
+              <div class="team-role">Founder · Principal Designer</div>
+            </div>
+            <div class="team-card">
+              <img
+                class="team-img"
+                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=500&q=80"
+                alt="Marco Bellini"
+              />
+              <div class="team-name">Marco Bellini</div>
+              <div class="team-role">Lead Architect</div>
+            </div>
+            <div class="team-card">
+              <img
+                class="team-img"
+                src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=500&q=80"
+                alt="Yuki Tanaka"
+              />
+              <div class="team-name">Yuki Tanaka</div>
+              <div class="team-role">Senior Interior Designer</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="cta-block">
+          <div class="cta-label">Let's Collaborate</div>
+          <h2 class="cta-title">
+            Every great space<br />starts with a <em>conversation.</em>
+          </h2>
+          <a
+            href="#"
+            class="btn btn-gold"
+            onclick="
+              showPage(
+                'contact',
+                document.querySelector('.sidebar-nav li:nth-child(5) a'),
+              )
+            "
+            >Contact the Studio <span class="btn-arrow">→</span></a
+          >
+        </section>
+
+        <footer class="footer">
+          <div class="footer-logo">LUMINA</div>
+          <div>
+            Architecture <span class="gold-bar"></span> Interior Design
+            <span class="gold-bar"></span> New York
+          </div>
+          <div>© 2026 All Rights Reserved</div>
+        </footer>
+      </div>
+
+      <!-- ════════ PROJECTS ════════ -->
+      <div class="page" id="page-projects">
+        <div class="page-hero">
+          <img
+            src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2000&q=80"
+            alt="Projects"
+          />
+          <div class="page-hero-content">
+            <div class="page-label">03 / Portfolio</div>
+            <h1 class="page-title">Selected<br />Works</h1>
+          </div>
+        </div>
+
+        <div class="projects-filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="architecture">
+            Architecture
+          </button>
+          <button class="filter-btn" data-filter="interior">
+            Interior Design
+          </button>
+          <button class="filter-btn" data-filter="hospitality">
+            Hospitality
+          </button>
+          <button class="filter-btn" data-filter="commercial">
+            Commercial
+          </button>
+        </div>
+
+        <div class="projects-masonry">
+          <div class="proj-item">
+            <img
+              src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80"
+              alt="Arqa"
+            />
+            <div class="proj-overlay">
+              <div class="proj-info">
+                <div class="proj-name">Arqa Residence</div>
+                <div class="proj-type">Architecture · 2025</div>
+              </div>
+            </div>
+          </div>
+          <div class="proj-item">
+            <img
+              src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80"
+              alt="Vivere"
+            />
+            <div class="proj-overlay">
+              <div class="proj-info">
+                <div class="proj-name">Vivere Penthouse</div>
+                <div class="proj-type">Interior Design · 2024</div>
+              </div>
+            </div>
+          </div>
+          <div class="proj-item">
+            <img
+              src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80"
+              alt="Hotel Riva"
+            />
+            <div class="proj-overlay">
+              <div class="proj-info">
+                <div class="proj-name">Hotel Riva</div>
+                <div class="proj-type">Hospitality · 2024</div>
+              </div>
+            </div>
+          </div>
+          <div class="proj-item">
+            <img
+              src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80"
+              alt="Horizon"
+            />
+            <div class="proj-overlay">
+              <div class="proj-info">
+                <div class="proj-name">Horizon Villa</div>
+                <div class="proj-type">Architecture · 2023</div>
+              </div>
+            </div>
+          </div>
+          <div class="proj-item">
+            <img
+              src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80"
+              alt="Scala"
+            />
+            <div class="proj-overlay">
+              <div class="proj-info">
+                <div class="proj-name">Scala Offices</div>
+                <div class="proj-type">Commercial · 2023</div>
+              </div>
+            </div>
+          </div>
+          <div class="proj-item">
+            <img
+              src="https://images.unsplash.com/photo-1556912173-3bb406ef726b?auto=format&fit=crop&w=800&q=80"
+              alt="Noma"
+            />
+            <div class="proj-overlay">
+              <div class="proj-info">
+                <div class="proj-name">Noma Kitchen</div>
+                <div class="proj-type">Interior Design · 2022</div>
+              </div>
+            </div>
+          </div>
+          <div class="proj-item">
+            <img
+              src="https://images.unsplash.com/photo-1502005097973-6a7082348e28?auto=format&fit=crop&w=800&q=80"
+              alt="Ember"
+            />
+            <div class="proj-overlay">
+              <div class="proj-info">
+                <div class="proj-name">Ember Loft</div>
+                <div class="proj-type">Interior Design · 2022</div>
+              </div>
+            </div>
+          </div>
+          <div class="proj-item">
+            <img
+              src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+              alt="Meridian"
+            />
+            <div class="proj-overlay">
+              <div class="proj-info">
+                <div class="proj-name">Meridian Tower</div>
+                <div class="proj-type">Architecture · 2021</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="footer" style="border-top: 1px solid var(--border)">
+          <div class="footer-logo">LUMINA</div>
+          <div>
+            Architecture <span class="gold-bar"></span> Interior Design
+            <span class="gold-bar"></span> New York
+          </div>
+          <div>© 2026 All Rights Reserved</div>
+        </footer>
+      </div>
+
+      <!-- ════════ SERVICES ════════ -->
+      <div class="page" id="page-services">
+        <div class="page-hero">
+          <img
+            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2000&q=80"
+            alt="Services"
+          />
+          <div class="page-hero-content">
+            <div class="page-label">04 / Expertise</div>
+            <h1 class="page-title">What We Do<br />& How We Do It</h1>
+          </div>
+        </div>
+
+        <div class="services-hero-text">
+          <div class="section-index">Our Services</div>
+          <p class="services-intro">
+            We offer a <strong>complete design service</strong> — from the first
+            conversation to the final object placed in the room. Each service
+            can stand alone or be combined into an end-to-end engagement.
+          </p>
+        </div>
+
+        <div class="services-detail">
+          <div class="svc-detail-item">
+            <div class="svc-detail-num">01</div>
+            <div>
+              <div class="svc-detail-name">Consultation</div>
+              <div class="svc-detail-desc">
+                Before we design anything, we listen. Our consultation service
+                is a focused engagement to understand your goals, clarify what's
+                possible within your budget, and establish a clear direction for
+                your project.
+              </div>
+              <ul class="svc-deliverables">
+                <li>Site or space analysis</li>
+                <li>Mood board and visual direction</li>
+                <li>Budget and timeline framework</li>
+                <li>Scope of work document</li>
+              </ul>
+            </div>
+            <img
+              class="svc-img"
+              src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80"
+              alt="Consultation"
+            />
+          </div>
+
+          <div class="svc-detail-item">
+            <div class="svc-detail-num">02</div>
+            <div>
+              <div class="svc-detail-name">Architecture</div>
+              <div class="svc-detail-desc">
+                Full architectural services from schematic design through
+                construction administration. We work with residential, boutique
+                commercial, and mixed-use typologies — always with an emphasis
+                on material quality and spatial experience.
+              </div>
+              <ul class="svc-deliverables">
+                <li>Schematic and design development</li>
+                <li>Construction documents</li>
+                <li>Permit coordination</li>
+                <li>Construction administration</li>
+              </ul>
+            </div>
+            <img
+              class="svc-img"
+              src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=600&q=80"
+              alt="Architecture"
+            />
+          </div>
+
+          <div class="svc-detail-item">
+            <div class="svc-detail-num">03</div>
+            <div>
+              <div class="svc-detail-name">Interior Design</div>
+              <div class="svc-detail-desc">
+                We design interiors that feel composed rather than decorated —
+                spaces where materials, light, and furniture exist in dialogue
+                with one another. Our process is collaborative and methodical,
+                with an eye for the precise and the rare.
+              </div>
+              <ul class="svc-deliverables">
+                <li>Space planning and layout</li>
+                <li>Material and finish specifications</li>
+                <li>Custom furniture and millwork design</li>
+                <li>Procurement and installation management</li>
+              </ul>
+            </div>
+            <img
+              class="svc-img"
+              src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=600&q=80"
+              alt="Interior Design"
+            />
+          </div>
+
+          <div class="svc-detail-item">
+            <div class="svc-detail-num">04</div>
+            <div>
+              <div class="svc-detail-name">Art Direction</div>
+              <div class="svc-detail-desc">
+                The final layer of a space: the objects, art, and atmospheres
+                that give it a soul. We source and curate pieces that are
+                meaningful, not merely aesthetic — working with galleries,
+                artists, and craftspeople worldwide.
+              </div>
+              <ul class="svc-deliverables">
+                <li>Art curation and commissioning</li>
+                <li>Object and textile sourcing</li>
+                <li>Scent, sound, and light atmosphere</li>
+                <li>Photography and documentation</li>
+              </ul>
+            </div>
+            <img
+              class="svc-img"
+              src="https://images.unsplash.com/photo-1556912173-3bb406ef726b?auto=format&fit=crop&w=600&q=80"
+              alt="Art Direction"
+            />
+          </div>
+        </div>
+
+        <section class="process-section">
+          <div class="section-header">
+            <h2 class="section-title">Our Process</h2>
+          </div>
+          <div class="process-steps">
+            <div class="proc-step">
+              <div class="proc-num">Step 01</div>
+              <div class="proc-name">Discovery</div>
+              <div class="proc-desc">
+                We listen to your story, your needs, your life — before a single
+                concept is formed.
+              </div>
+            </div>
+            <div class="proc-step">
+              <div class="proc-num">Step 02</div>
+              <div class="proc-name">Concept</div>
+              <div class="proc-desc">
+                A clear design direction presented through sketches, references,
+                and materials.
+              </div>
+            </div>
+            <div class="proc-step">
+              <div class="proc-num">Step 03</div>
+              <div class="proc-name">Design</div>
+              <div class="proc-desc">
+                Detailed drawings, specifications, and selections developed in
+                close collaboration.
+              </div>
+            </div>
+            <div class="proc-step">
+              <div class="proc-num">Step 04</div>
+              <div class="proc-name">Execution</div>
+              <div class="proc-desc">
+                We oversee every contractor and craftsperson to ensure the
+                vision is realized faithfully.
+              </div>
+            </div>
+            <div class="proc-step">
+              <div class="proc-num">Step 05</div>
+              <div class="proc-name">Handover</div>
+              <div class="proc-desc">
+                Final styling, photography, and a space that is ready to be
+                lived in from day one.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="cta-block">
+          <div class="cta-label">Work With Us</div>
+          <h2 class="cta-title">
+            Every project begins<br />with a single <em>question.</em>
+          </h2>
+          <a
+            href="#"
+            class="btn btn-gold"
+            onclick="
+              showPage(
+                'contact',
+                document.querySelector('.sidebar-nav li:nth-child(5) a'),
+              )
+            "
+            >Ask Yours <span class="btn-arrow">→</span></a
+          >
+        </section>
+
+        <footer class="footer" style="border-top: 1px solid var(--border)">
+          <div class="footer-logo">LUMINA</div>
+          <div>
+            Architecture <span class="gold-bar"></span> Interior Design
+            <span class="gold-bar"></span> New York
+          </div>
+          <div>© 2026 All Rights Reserved</div>
+        </footer>
+      </div>
+
+      <!-- ════════ CONTACT ════════ -->
+      <div class="page" id="page-contact">
+        <div class="contact-layout">
+          <div class="contact-left">
+            <div>
+              <div class="page-label">05 / Contact</div>
+              <h1 class="contact-headline">
+                Let's build<br />something<br /><em>remarkable.</em>
+              </h1>
+              <div class="contact-info-block">
+                <div class="ci-label">Studio</div>
+                <div class="ci-value">
+                  128 Minimalist Avenue<br />Design District, NY 10001
+                </div>
+              </div>
+              <div class="contact-info-block">
+                <div class="ci-label">Reach Us</div>
+                <div class="ci-value">
+                  <a href="mailto:hello@luminastudio.com"
+                    >hello@luminastudio.com</a
+                  ><br />
+                  <a href="tel:+15551234567">+1 (555) 123-4567</a>
+                </div>
+              </div>
+              <div class="contact-info-block">
+                <div class="ci-label">Hours</div>
+                <div class="ci-value">
+                  Monday – Friday<br />9:00 AM – 6:00 PM EST
+                </div>
+              </div>
+            </div>
+            <div class="contact-social">
+              <a href="#">Instagram</a>
+              <a href="#">LinkedIn</a>
+              <a href="#">Behance</a>
+            </div>
+          </div>
+
+          <div class="contact-right">
+            <div class="form-title">Send Us a Message</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-input" placeholder="Sophie" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Last Name</label>
+                <input type="text" class="form-input" placeholder="Laurent" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-input"
+                placeholder="you@example.com"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Project Type</label>
+              <select class="form-select">
+                <option value="" disabled selected>Select a service</option>
+                <option>Consultation</option>
+                <option>Architecture</option>
+                <option>Interior Design</option>
+                <option>Art Direction</option>
+                <option>Full Service</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Budget Range</label>
+              <select class="form-select">
+                <option value="" disabled selected>Approximate budget</option>
+                <option>Under $50,000</option>
+                <option>$50,000 – $150,000</option>
+                <option>$150,000 – $500,000</option>
+                <option>$500,000 – $1M</option>
+                <option>$1M+</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tell Us About Your Project</label>
+              <textarea
+                class="form-textarea"
+                placeholder="Describe your space, your vision, your timeline…"
+              ></textarea>
+            </div>
+            <button
+              class="btn btn-gold form-submit"
+              onclick="handleSubmit(this)"
+            >
+              Send Message <span class="btn-arrow">→</span>
+            </button>
+          </div>
+        </div>
+
+        <footer class="footer" style="border-top: 1px solid var(--border)">
+          <div class="footer-logo">LUMINA</div>
+          <div>
+            Architecture <span class="gold-bar"></span> Interior Design
+            <span class="gold-bar"></span> New York
+          </div>
+          <div>© 2026 All Rights Reserved</div>
+        </footer>
+      </div>
+    </div>
+    <!-- /main -->
+
+    <script>
+      function showPage(id, linkEl) {
+        document
+          .querySelectorAll(".page")
+          .forEach((p) => p.classList.remove("active"));
+        document
+          .querySelectorAll(".sidebar-nav li a")
+          .forEach((a) => a.classList.remove("active"));
+        document.getElementById("page-" + id).classList.add("active");
+        if (linkEl) linkEl.classList.add("active");
+        window.scrollTo(0, 0);
+      }
+
+      document.querySelectorAll(".filter-btn").forEach((btn) => {
+        btn.addEventListener("click", function () {
+          document
+            .querySelectorAll(".filter-btn")
+            .forEach((b) => b.classList.remove("active"));
+          this.classList.add("active");
+        });
+      });
+
+      function handleSubmit(btn) {
+        btn.textContent = "Message Sent ✓";
+        btn.style.background = "#2a7a4b";
+        btn.style.color = "#fff";
+        btn.style.cursor = "default";
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Charaf E. Naai — Index</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+      :root {
+        --bg: #0a0a0a;
+        --text: #ffffff;
+        --muted: #555555;
+        --accent: #d4af37;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: "Space Mono", monospace;
+        overflow-x: hidden;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      /* Custom Cursor */
+      @media (hover: hover) and (pointer: fine) {
+        body {
+          cursor: none;
+        }
+        .cursor {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 20px;
+          height: 20px;
+          background: white;
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: 9999;
+          transform: translate(-50%, -50%);
+          mix-blend-mode: difference;
+          transition:
+            width 0.3s,
+            height 0.3s;
+        }
+        .cursor.active {
+          width: 80px;
+          height: 80px;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(2px);
+          border: 1px solid rgba(255, 255, 255, 0.5);
+          mix-blend-mode: normal;
+        }
+      }
+
+      /* Page Transition Overlay */
+      .page-transition {
+        position: fixed;
+        inset: 0;
+        background-color: var(--bg);
+        z-index: 10000;
+        pointer-events: none;
+        transform: scaleY(1);
+        transform-origin: top;
+      }
+
+      /* Header */
+      header {
+        padding: 40px 48px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        text-transform: uppercase;
+        font-size: 10px;
+        letter-spacing: 4px;
+        z-index: 10;
+      }
+
+      header div {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .location {
+        color: var(--muted);
+      }
+
+      /* Main Catalogue List */
+      main {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        padding: 0 48px;
+        z-index: 10;
+      }
+
+      ul {
+        list-style: none;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+
+      li {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      li:first-child {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .project-link {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        text-decoration: none;
+        color: var(--text);
+        padding: 24px 0;
+        transition: color 0.4s;
+        position: relative;
+        z-index: 2;
+      }
+
+      .project-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(64px, 10vw, 160px);
+        line-height: 0.85;
+        letter-spacing: 2px;
+        transition:
+          transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+          color 0.3s;
+        transform-origin: left;
+      }
+
+      .project-meta {
+        font-size: 10px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--muted);
+        display: flex;
+        gap: 32px;
+        transition:
+          color 0.3s,
+          transform 0.5s;
+      }
+
+      .project-meta span {
+        display: inline-block;
+      }
+
+      /* Hover States */
+      .project-link:hover .project-title {
+        transform: translateX(32px);
+        color: var(--muted);
+      }
+
+      .project-link:hover .project-meta {
+        color: var(--text);
+        transform: translateX(-32px);
+      }
+
+      /* Footer */
+      footer {
+        padding: 40px 48px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        letter-spacing: 2px;
+        color: var(--muted);
+        text-transform: uppercase;
+        z-index: 10;
+      }
+
+      /* Animations */
+      .reveal {
+        clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+      }
+
+      /* Responsive */
+      @media (max-width: 900px) {
+        header,
+        main,
+        footer {
+          padding-left: 24px;
+          padding-right: 24px;
+        }
+        .project-meta {
+          flex-direction: column;
+          gap: 4px;
+          text-align: right;
+        }
+        .project-link:hover .project-title {
+          transform: translateX(16px);
+        }
+        .project-link:hover .project-meta {
+          transform: translateX(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-transition" id="page-transition"></div>
+
+    <div class="cursor" id="cursor"></div>
+
+    <header>
+      <div>
+        <span>Charaf E. Naai</span>
+        <span class="location">Selected Works</span>
+      </div>
+      <div style="text-align: right">
+        <span>Index / Catalogue</span>
+        <span class="location">Marrakech, MA</span>
+      </div>
+    </header>
+
+    <main>
+      <ul id="project-list">
+        <li>
+          <a href="MAISONNOVA/" class="project-link">
+            <div class="project-title reveal">MAISONNOVA</div>
+            <div class="project-meta reveal">
+              <span>01</span>
+              <span>Fashion Portfolio</span>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href="VOID/" class="project-link">
+            <div class="project-title reveal">VOID</div>
+            <div class="project-meta reveal">
+              <span>02</span>
+              <span>Men's Streetwear</span>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href="MAISONARCHIVE/" class="project-link">
+            <div class="project-title reveal">MAISONARCHIVE</div>
+            <div class="project-meta reveal">
+              <span>03</span>
+              <span>Cultural Museum</span>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href="LUMINA/" class="project-link">
+            <div class="project-title reveal">LUMINA</div>
+            <div class="project-meta reveal">
+              <span>04</span>
+              <span>Interior Design</span>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href="AURA/" class="project-link">
+            <div class="project-title reveal">AURA</div>
+            <div class="project-meta reveal">
+              <span>05</span>
+              <span>Skin Care Products</span>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </main>
+
+    <footer>
+      <span>© 2026</span>
+      <span>Full Stack & Web Architecture</span>
+    </footer>
+
+    <script>
+      // Cursor Logic
+      const cursor = document.getElementById("cursor");
+      const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+
+      if (hasFinePointer) {
+        document.addEventListener("mousemove", (e) => {
+          gsap.to(cursor, {
+            x: e.clientX,
+            y: e.clientY,
+            duration: 0.1,
+            ease: "power2.out",
+          });
+        });
+
+        document.querySelectorAll("a").forEach((link) => {
+          link.addEventListener("mouseenter", () =>
+            cursor.classList.add("active"),
+          );
+          link.addEventListener("mouseleave", () =>
+            cursor.classList.remove("active"),
+          );
+        });
+      }
+
+      // Smooth Page Transition (Router Simulation)
+      const transitionOverlay = document.getElementById("page-transition");
+
+      document.querySelectorAll(".project-link").forEach((link) => {
+        link.addEventListener("click", function (e) {
+          e.preventDefault(); // Stop immediate navigation
+          const targetUrl = this.getAttribute("href");
+
+          // Animate out
+          gsap.to(transitionOverlay, {
+            transformOrigin: "bottom",
+            scaleY: 1,
+            duration: 0.6,
+            ease: "power4.inOut",
+            onComplete: () => {
+              window.location.href = targetUrl; // Route to the clean URL
+            },
+          });
+        });
+      });
+
+      // Initial GSAP Reveal Animation (On Page Load)
+      window.addEventListener("DOMContentLoaded", () => {
+        // Animate overlay away
+        gsap.to(transitionOverlay, {
+          transformOrigin: "top",
+          scaleY: 0,
+          duration: 0.8,
+          ease: "power4.inOut",
+        });
+
+        // Reveal Text
+        gsap.to(".reveal", {
+          clipPath: "polygon(0 0%, 100% 0%, 100% 100%, 0 100%)",
+          y: 0,
+          duration: 1.2,
+          stagger: 0.08,
+          ease: "power4.out",
+          delay: 0.4,
+        });
+
+        gsap.from("header, footer", {
+          opacity: 0,
+          y: 20,
+          duration: 1,
+          delay: 0.8,
+          ease: "power2.out",
+        });
+      });
+    </script>
+  </body>
+</html>
